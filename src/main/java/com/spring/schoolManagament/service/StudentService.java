@@ -21,4 +21,6 @@ public interface StudentService<StudentEntity, ID> {
 
 	public StudentEntity getBypinCode(int pinCode);
 
+	public List<StudentEntity> getStudentSortByBirthDate();
+
 }

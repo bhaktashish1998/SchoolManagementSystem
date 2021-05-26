@@ -1,7 +1,9 @@
 package com.spring.schoolManagament.service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,9 @@ import com.spring.schoolManagament.repository.StudentRepository;
 
 @Service
 public class StudentSeviceImpl implements StudentService<StudentEntity, Long> {
+
+	final static Comparator<StudentEntity> comparator = (StudentEntity s, StudentEntity t) -> s.getBirthDate()
+			.compareTo(t.getBirthDate());
 
 	@Autowired
 	StudentRepository repo;
@@ -76,4 +81,15 @@ public class StudentSeviceImpl implements StudentService<StudentEntity, Long> {
 			throw new RuntimeException("Student Not Found");
 	}
 
+	@Override
+	public List<StudentEntity> getStudentSortByBirthDate() {
+
+		return repo.findAll()
+				.stream()
+				.sorted(comparator)
+				.collect(Collectors.toList());
+	}
+
 }
+
+
